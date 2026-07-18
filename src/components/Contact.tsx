@@ -77,7 +77,7 @@ export default function Contact() {
               transition={{ duration: 1 }}
               className="text-zinc-400 text-sm md:text-base leading-relaxed font-light"
             >
-              I am always excited to discuss software development, IT automation solutions, website design, or general tech queries. Feel free to reach out using the form, or direct communication channels.
+              Have a project, idea, or question? Reach out and let’s build something useful together.
             </motion.p>
 
             {/* Direct Connect Cards */}

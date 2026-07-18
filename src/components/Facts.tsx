@@ -39,7 +39,7 @@ const facts: Fact[] = [
   {
     id: 4,
     icon: <Globe className="w-5 h-5 text-purple-400" />,
-    text: 'IT Officer at Little Flower',
+    text: 'Systems Specialist at Little Flower',
     delay: 0.7,
     yOffset: -10,
     glowColor: 'rgba(124, 58, 237, 0.15)',

@@ -100,23 +100,15 @@ export default function About() {
               className="space-y-4 text-zinc-300 text-sm md:text-base leading-relaxed"
             >
               <p className="font-medium text-white text-lg">
-                I am Roshan Sah, an IT Officer and Full Stack Developer with a passion for technology, innovation, and continuous learning.
-              </p>
-              
-              <p>
-                Currently, I work as an IT Officer at Little Flower Secondary School, Parwanipur, where I manage IT systems, provide technical support, maintain digital infrastructure, and help integrate technology into education.
+                I am Roshan Sah, a Full Stack Developer focused on clean code, dependable systems, and fast delivery.
               </p>
 
               <p>
-                Beyond my professional role, I build modern websites, web applications, and digital solutions for businesses, startups, educational institutions, and individuals.
+                I work on web platforms, adaptive interfaces, and stable backend systems that help teams move faster.
               </p>
 
               <p>
-                I enjoy solving complex problems, learning new technologies, and creating products that make a meaningful impact.
-              </p>
-
-              <p>
-                I believe great software is built through creativity, collaboration, and continuous improvement.
+                My work is built around clarity, performance, and practical value.
               </p>
             </motion.div>
 

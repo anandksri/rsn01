@@ -85,7 +85,7 @@ export default function WhyWorkWithMe() {
             className="lg:col-span-8"
           >
             <h3 className="font-display font-medium text-2xl md:text-3xl text-zinc-300 tracking-tight leading-normal">
-              I believe technology should be <span className="text-white font-semibold">simple, reliable, and impactful</span>. Whether developing scalable web applications or managing IT infrastructure, I strive to deliver high-quality solutions with clean design and efficient code.
+              I build clean, reliable digital products and steady systems that help teams move faster.
             </h3>
           </motion.div>
           <motion.div 

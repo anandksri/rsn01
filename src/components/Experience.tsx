@@ -117,22 +117,22 @@ export default function Experience() {
           
           <ExperienceCard
             index="01"
-            role="IT Officer"
+            role="Systems Specialist"
             company="Little Flower Secondary School, Parwanipur"
             period="PRESENT"
-            description="Responsible for managing IT infrastructure, network administration, technical support, website management, computer maintenance, digital system implementation, software installation & troubleshooting, and technology integration in education."
+            description="Maintaining reliable systems, managing networks, and supporting digital tools for staff and students."
             icon={<Server className="w-5 h-5" />}
-            tags={['ITInfrastructure', 'NetworkAdmin', 'SystemDeploy', 'TechIntegration']}
+            tags={['Systems', 'Network', 'Support', 'Operations']}
           />
 
           <ExperienceCard
             index="02"
-            role="Full Stack Developer & Digital Creator"
+            role="Full Stack Developer"
             company="Freelance & Digital Solutions"
             period="ACTIVE"
-            description="Building modern websites, scalable web applications, and digital solutions for local and international clients, businesses, educational institutions, and individuals."
+            description="Creating efficient web apps and polished interfaces for businesses and educational projects."
             icon={<Laptop className="w-5 h-5" />}
-            tags={['React', 'NodeJS', 'FullStack', 'WebApps', 'SEO']}
+            tags={['React', 'NodeJS', 'FullStack', 'WebApps', 'API']}
           />
 
         </div>

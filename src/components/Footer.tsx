@@ -22,7 +22,7 @@ export default function Footer() {
             <h3 className="font-display font-black text-xl tracking-tighter text-white uppercase">rsn<span className="text-[#7C3AED]">01</span></h3>
           </div>
           <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
-            IT Officer | Full Stack Developer
+            Full Stack Developer | Systems Specialist
           </p>
         </div>
 
@@ -50,18 +50,6 @@ export default function Footer() {
           </button>
         </div>
 
-      </div>
-
-      {/* Subfooter */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-[10px] font-mono text-zinc-600">
-        <p>&copy; {new Date().getFullYear()} Roshan Sah. All rights reserved.</p>
-        <p className="flex items-center gap-1">
-          <span>Crafted with</span>
-          <Heart className="w-3 h-3 text-purple-500 animate-pulse" />
-          <span>&mdash; Powered by</span>
-          <Sparkles className="w-3 h-3 text-purple-400" />
-          <span className="text-zinc-400">TC Pioneer</span>
-        </p>
       </div>
     </footer>
   );

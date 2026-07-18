@@ -106,10 +106,10 @@ export default function WhatIDo() {
 
           <OfferingCard
             index="02"
-            title="IT Infrastructure Management"
-            description="Providing setup, administration, and scaling of IT systems for schools and commercial businesses. Ensuring stable servers, secure software distribution, and efficient operations."
+            title="Systems Management"
+            description="Keeping systems stable, secure, and ready for real work with dependable server and network support."
             icon={<Server className="w-5 h-5" />}
-            technologies={['System Config', 'Server Management', 'Troubleshooting', 'EdTech Setup']}
+            technologies={['Server', 'Network', 'Support', 'Operations']}
             delay={0.2}
           />
 
