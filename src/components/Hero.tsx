@@ -257,7 +257,7 @@ export default function Hero() {
           <motion.div
             initial={{opacity:0,x:-40}}
             animate={{opacity:1,x:0}}
-            className="flex justify-center lg:justify-start order-2 lg:order-1"
+            className="flex justify-center lg:justify-start order-1 lg:order-1"
           >
             <div className="relative animate-[float_6s_ease-in-out_infinite]">
               <div className="absolute inset-0 rounded-3xl bg-purple-600/20 blur-3xl"></div>
