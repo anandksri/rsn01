@@ -1,6 +1,8 @@
-import { useState, useRef, useEffect, ReactNode, MouseEvent } from 'react';
+import { useState, useRef, useEffect, ReactNode, MouseEvent, CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, GraduationCap, Briefcase, Globe, ArrowRight, Sparkles, Download, X, Mail, Laptop, Rocket, Code, CheckCircle2 } from 'lucide-react';
+
+const fullName = 'ROSHAN SAH';
 
 interface QuickCardProps {
   icon: ReactNode;
@@ -32,6 +34,10 @@ function QuickCard({ icon, label, value, delay }: QuickCardProps) {
 export default function Hero() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [showDownloadToast, setShowDownloadToast] = useState(false);
+  const [typedName, setTypedName] = useState('');
+  const [tiltStyle, setTiltStyle] = useState<CSSProperties>({
+    transform: 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)',
+  });
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // High performance Canvas particle system mimicking 3D floating constellation
@@ -167,10 +173,54 @@ export default function Hero() {
     }
   };
 
+  const handleImageMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateY = ((x / rect.width) - 0.5) * 16;
+    const rotateX = ((y / rect.height) - 0.5) * -16;
+
+    setTiltStyle({
+      transform: `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`,
+    });
+  };
+
+  const handleImageMouseLeave = () => {
+    setTiltStyle({
+      transform: 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)',
+    });
+  };
+
+  const typedParts = typedName.includes(' ')
+    ? typedName.split(' ', 2)
+    : [typedName, ''];
+  const typedSolid = typedParts[0];
+  const typedTransparent = typedParts[1] || '';
+
+  useEffect(() => {
+    let currentIndex = 0;
+    let typingTimer = 0;
+
+    const typeNext = () => {
+      currentIndex += 1;
+      setTypedName(fullName.slice(0, currentIndex));
+
+      if (currentIndex < fullName.length) {
+        typingTimer = window.setTimeout(typeNext, 140 + Math.random() * 40);
+      }
+    };
+
+    typingTimer = window.setTimeout(typeNext, 600);
+
+    return () => {
+      window.clearTimeout(typingTimer);
+    };
+  }, []);
+
   return (
     <section 
       id="home" 
-      className="relative min-h-screen flex items-center justify-center bg-[#050505] grid-overlay py-24 px-4 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center bg-[#050505] grid-overlay pt-44 pb-20 px-4 overflow-hidden"
     >
       {/* Dynamic glow mesh background */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -197,132 +247,61 @@ export default function Hero() {
         >
           <span className="flex h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
           <span className="text-[10px] font-mono tracking-widest text-zinc-400 uppercase flex items-center gap-1">
-            CREATIVE PORTFOLIO <Sparkles className="w-3 h-3 text-purple-400 inline" />
+            TechByte <Sparkles className="w-3 h-3 text-purple-400 inline" />
           </span>
         </motion.div>
 
         {/* Big cinematic layout */}
-        <div className="text-center max-w-3xl">
-          {/* Main Title Word reveal */}
-          <h1 className="font-display font-black text-6xl sm:text-8xl md:text-9xl tracking-tighter leading-[0.85] text-white uppercase select-none flex flex-col items-center">
-            {/* Animated First Name */}
-            <motion.div
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.06,
-                  }
-                }
-              }}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="flex justify-center"
-            >
-              {"ROSHAN".split("").map((char, index) => (
-                <motion.span
-                  key={index}
-                  variants={{
-                    hidden: { opacity: 0, y: 40, rotateX: -30 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      rotateX: 0,
-                      transition: {
-                        type: "spring",
-                        damping: 12,
-                        stiffness: 110,
-                      }
-                    }
-                  }}
-                  whileHover={{ 
-                    scale: 1.12, 
-                    color: "#A855F7",
-                    textShadow: "0 0 25px rgba(168, 85, 247, 0.5)"
-                  }}
-                  className="inline-block cursor-default transition-colors duration-150"
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.div>
-
-            {/* Animated Last Name */}
-            <motion.div
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.06,
-                    delayChildren: 0.25,
-                  }
-                }
-              }}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="flex justify-center mt-2 text-transparent"
-              style={{ WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.45)' }}
-            >
-              {"SAH".split("").map((char, index) => (
-                <motion.span
-                  key={index}
-                  variants={{
-                    hidden: { opacity: 0, y: 40, rotateX: -30 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      rotateX: 0,
-                      transition: {
-                        type: "spring",
-                        damping: 12,
-                        stiffness: 110,
-                      }
-                    }
-                  }}
-                  whileHover={{ 
-                    scale: 1.15, 
-                    color: "#D946EF",
-                    textShadow: "0 0 25px rgba(217, 70, 239, 0.5)"
-                  }}
-                  className="inline-block cursor-default transition-all duration-150"
-                  style={{ WebkitTextStroke: 'inherit' }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.div>
-          </h1>
-
-          {/* Subtitle with premium gradient mask */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 font-display font-medium text-lg sm:text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-200 to-purple-400 tracking-wide"
-          >
-            IT Officer | Full Stack Developer | Digital Creator
-          </motion.p>
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
-            className="mt-6 text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto"
-          >
-            Building modern digital experiences through technology, creativity, and innovation. I specialize in web development, IT solutions, and digital transformation while helping businesses and organizations grow with reliable technology.
-          </motion.p>
-
-          {/* Call to Actions */}
+        <div className="w-full grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4"
+            initial={{opacity:0,x:-40}}
+            animate={{opacity:1,x:0}}
+            className="flex justify-center lg:justify-start order-2 lg:order-1"
           >
-            {/* View Portfolio Button */}
+            <div className="relative animate-[float_6s_ease-in-out_infinite]">
+              <div className="absolute inset-0 rounded-3xl bg-purple-600/20 blur-3xl"></div>
+              <img
+                src="src/roshan-sah.png"
+                alt="Roshan Sah"
+                className="relative w-[280px] sm:w-[360px] max-w-full blob-image premium-image border border-white/10 object-cover transition-transform duration-500"
+                onMouseMove={handleImageMouseMove}
+                onMouseLeave={handleImageMouseLeave}
+                style={tiltStyle}
+              />
+            </div>
+          </motion.div>
+
+          <div className="order-1 lg:order-2 text-center lg:text-left">
+            <h1 className="font-vast-shadow text-5xl sm:text-7xl md:text-8xl tracking-tighter leading-[0.95] text-white uppercase">
+              <span className="block font-vast-shadow text-white drop-shadow-[0_30px_60px_rgba(124,58,237,0.25)]">
+                {typedSolid}
+              </span>
+              <span
+                className="block font-vast-shadow text-transparent"
+                style={{
+                  WebkitTextStroke: '1.5px rgba(255,255,255,.45)',
+                  textShadow: '0 0 30px rgba(168,85,247,0.22)',
+                }}
+              >
+                {typedTransparent}
+              </span>
+            </h1>
+
+            <motion.p
+              initial={{opacity:0}}
+              animate={{opacity:1}}
+              transition={{duration:1,delay:.2}}
+              className="mt-8 text-lg leading-8 text-zinc-400 max-w-xl mx-auto lg:mx-0"
+            >
+              Building modern websites, scalable digital solutions, and reliable IT systems that help businesses grow through technology.
+            </motion.p>
+
+            <motion.div
+              initial={{opacity:0,y:20}}
+              animate={{opacity:1,y:0}}
+              transition={{delay:.4}}
+              className="mt-10 flex flex-wrap gap-4 justify-center lg:justify-start"
+            >
             <a
               href="#projects"
               onClick={(e) => {
@@ -363,6 +342,8 @@ export default function Hero() {
               </span>
             </button>
           </motion.div>
+
+          </div>
         </div>
 
         {/* Bento Grid Quick Info Cards */}
@@ -546,4 +527,4 @@ export default function Hero() {
       </AnimatePresence>
     </section>
   );
-}
+} 
