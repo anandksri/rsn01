@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect, ReactNode, MouseEvent, CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, GraduationCap, Briefcase, Globe, ArrowRight, Sparkles, Download, X, Mail, Laptop, Rocket, Code, CheckCircle2 } from 'lucide-react';
-
+import profileImage from "../assets/images/roshan-sah.png";
+  
 const fullName = 'ROSHAN SAH';
 
 interface QuickCardProps {
@@ -261,7 +262,7 @@ export default function Hero() {
             <div className="relative animate-[float_6s_ease-in-out_infinite]">
               <div className="absolute inset-0 rounded-3xl bg-purple-600/20 blur-3xl"></div>
               <img
-                src="src/roshan-sah.png"
+                src="/src/assets/images/roshan-sah.png"
                 alt="Roshan Sah"
                 className="relative w-[280px] sm:w-[360px] max-w-full blob-image premium-image border border-white/10 object-cover transition-transform duration-500"
                 onMouseMove={handleImageMouseMove}
