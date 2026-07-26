@@ -2,44 +2,56 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 
+type View = 'home' | 'blog' | 'tools' | 'lets-talk';
+
 interface NavItem {
   label: string;
-  href: string;
+  href?: string;
+  view?: View;
 }
 
-const navItems: NavItem[] = [
+interface NavbarProps {
+  currentView: View;
+  onNavigate: (view: View) => void;
+}
+
+const homeNavItems: NavItem[] = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Values', href: '#values' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Journey', href: '#journey' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Skills', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar() {
+const pageNavItems: NavItem[] = [
+  { label: 'Blogs', view: 'blog' },
+  { label: 'Tools', view: 'tools' },
+  { label: 'Lets Talk', view: 'lets-talk' },
+];
+
+export default function Navbar({ currentView, onNavigate }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    if (currentView !== 'home') {
+      return;
+    }
+
     const handleScroll = () => {
-      // Is scrolled
       setIsScrolled(window.scrollY > 20);
 
-      // Scroll progress
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (totalScroll > 0) {
         setScrollProgress(window.scrollY / totalScroll);
       }
 
-      // Active section sensing
-      const sections = navItems.map(item => item.href.slice(1));
+      const sections = homeNavItems.map((item) => item.href?.slice(1) ?? 'home');
       let currentSection = 'home';
-      
+
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -54,12 +66,11 @@ export default function Navbar() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentView]);
 
-  const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+  const scrollToSection = (href: string) => {
     const target = document.querySelector(href);
     if (target) {
       const offset = 80;
@@ -70,15 +81,31 @@ export default function Navbar() {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
-      setIsMobileMenuOpen(false);
     }
+  };
+
+  const handleMainNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (currentView !== 'home') {
+      onNavigate('home');
+      requestAnimationFrame(() => scrollToSection(href));
+    } else {
+      scrollToSection(href);
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  const handlePageNavClick = (e: MouseEvent<HTMLAnchorElement>, view: View) => {
+    e.preventDefault();
+    onNavigate(view);
+    setIsMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <>
-      {/* Top Scroll Progress Indicator */}
       <div className="fixed top-0 left-0 w-full h-[2px] z-50 bg-white/5">
         <motion.div
           className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-400"
@@ -88,34 +115,34 @@ export default function Navbar() {
 
       <header
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-5xl transition-all duration-500 ${
-          isScrolled 
-            ? 'glass py-3 px-6 rounded-full shadow-2xl shadow-black/40 border border-white/10' 
+          isScrolled
+            ? 'glass py-3 px-6 rounded-full shadow-2xl shadow-black/40 border border-white/10'
             : 'bg-transparent py-5 px-4'
         }`}
       >
-        <div className="flex items-center justify-between">
-          {/* Logo / Brand */}
-          <a 
+        <div className="flex items-center justify-between gap-4">
+          <a
             href="#home"
-            onClick={(e) => handleNavClick(e, '#home')}
+            onClick={(e) => handleMainNavClick(e, '#home')}
             className="group flex items-center gap-2 font-display font-bold text-lg tracking-tight text-white hover:opacity-90"
           >
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
             </span>
-            <span className="tracking-tighter font-black text-xl font-display">rsn<span className="text-[#7C3AED]">01</span></span>
+            <span className="tracking-tighter font-black text-xl font-display">
+              rsn<span className="text-[#7C3AED]">01</span>
+            </span>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.href.slice(1);
+          <nav className="hidden md:flex items-center gap-1 flex-1 justify-end">
+            {homeNavItems.map((item) => {
+              const isActive = activeSection === item.href?.slice(1);
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  onClick={(e) => handleMainNavClick(e, item.href ?? '#home')}
                   className={`relative px-4 py-1.5 text-xs font-medium tracking-wide transition-colors duration-300 ${
                     isActive ? 'text-white font-semibold' : 'text-zinc-400 hover:text-white'
                   }`}
@@ -133,20 +160,19 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Contact / CTA Button (Desktop) */}
-          <div className="hidden md:block">
-            <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, '#contact')}
-              className="group relative flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider text-white border border-white/10 overflow-hidden transition-all duration-300 hover:border-purple-500/40"
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-fuchsia-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <span>Let's Talk</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
-            </a>
+          <div className="hidden md:flex items-center gap-2">
+            {pageNavItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.view ? `#${item.view}` : item.href}
+                onClick={(e) => item.view && handlePageNavClick(e, item.view)}
+                className="px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide text-zinc-300 transition-colors hover:text-white hover:bg-white/5"
+              >
+                {item.label}
+              </a>
+            ))}
           </div>
 
-          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-1.5 text-zinc-400 hover:text-white transition-colors"
@@ -157,7 +183,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -168,16 +193,16 @@ export default function Navbar() {
             className="fixed top-20 left-[2.5%] w-[95%] z-40 glass rounded-3xl p-6 border border-white/10 shadow-2xl block md:hidden"
           >
             <nav className="flex flex-col gap-3">
-              {navItems.map((item) => {
-                const isActive = activeSection === item.href.slice(1);
+              {homeNavItems.map((item) => {
+                const isActive = activeSection === item.href?.slice(1);
                 return (
                   <a
                     key={item.label}
                     href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
+                    onClick={(e) => handleMainNavClick(e, item.href ?? '#home')}
                     className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium tracking-wide transition-colors ${
-                      isActive 
-                        ? 'bg-purple-950/20 text-purple-300 border border-purple-500/15' 
+                      isActive
+                        ? 'bg-purple-950/20 text-purple-300 border border-purple-500/15'
                         : 'text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent'
                     }`}
                   >
@@ -186,6 +211,17 @@ export default function Navbar() {
                   </a>
                 );
               })}
+              {pageNavItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.view ? `#${item.view}` : item.href}
+                  onClick={(e) => item.view && handlePageNavClick(e, item.view)}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium tracking-wide text-zinc-400 transition-colors hover:text-white hover:bg-white/5 border border-transparent"
+                >
+                  <span>{item.label}</span>
+                  <ArrowUpRight className="w-4 h-4 text-zinc-600" />
+                </a>
+              ))}
             </nav>
           </motion.div>
         )}

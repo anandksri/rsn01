@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { motion } from 'motion/react';
-import { Server, Laptop, Workflow, ExternalLink, Compass } from 'lucide-react';
+import { Server, Laptop } from 'lucide-react';
 
 interface ExpCardProps {
   index: string;
@@ -21,11 +21,9 @@ function ExperienceCard({ index, role, company, period, description, icon, tags 
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="glow-card glass p-8 rounded-3xl border border-white/5 hover:border-purple-500/20 group relative overflow-hidden flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1"
     >
-      {/* Absolute faint top-right glow */}
       <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-purple-500/5 blur-3xl group-hover:bg-purple-500/10 transition-colors pointer-events-none" />
 
       <div>
-        {/* Card Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/5 group-hover:border-purple-500/30 group-hover:bg-purple-500/10 text-purple-400 transition-all duration-300">
@@ -43,7 +41,6 @@ function ExperienceCard({ index, role, company, period, description, icon, tags 
           </span>
         </div>
 
-        {/* Content */}
         <h4 className="font-display font-medium text-white text-base md:text-lg mb-4">
           {role}
         </h4>
@@ -52,7 +49,6 @@ function ExperienceCard({ index, role, company, period, description, icon, tags 
         </p>
       </div>
 
-      {/* Tags Footer */}
       <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
         {tags.map((tag, i) => (
           <span
@@ -67,18 +63,22 @@ function ExperienceCard({ index, role, company, period, description, icon, tags 
   );
 }
 
+const skillGroups = [
+  { title: 'Programming', items: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Node.js', 'PHP'] },
+  { title: 'Development', items: ['Tailwind CSS', 'REST APIs', 'Git', 'GitHub', 'Responsive Design'] },
+  { title: 'Systems', items: ['Network Administration', 'Computer Hardware', 'System Troubleshooting', 'Technical Support'] },
+  { title: 'Professional', items: ['Leadership', 'Communication', 'Problem Solving', 'Teamwork'] },
+];
+
 export default function Experience() {
   return (
-    <section 
-      id="experience" 
+    <section
+      id="experience"
       className="relative py-28 px-4 bg-[#080808] grid-overlay border-y border-white/5 overflow-hidden"
     >
-      {/* Decorative side lights */}
       <div className="absolute left-[-5%] top-[10%] w-[30vw] h-[30vw] rounded-full bg-fuchsia-900/5 blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto">
-        
-        {/* Section Heading */}
         <div className="mb-16">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -112,9 +112,7 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Experience Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-          
           <ExperienceCard
             index="01"
             role="Systems Specialist"
@@ -134,9 +132,37 @@ export default function Experience() {
             icon={<Laptop className="w-5 h-5" />}
             tags={['React', 'NodeJS', 'FullStack', 'WebApps', 'API']}
           />
-
         </div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mt-12 rounded-[2rem] border border-white/10 bg-[#060606] p-8"
+        >
+          <div className="mb-6">
+            <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-purple-400">Skillset</p>
+            <h3 className="mt-2 font-display text-2xl font-semibold text-white">
+              Built across product, systems, and delivery.
+            </h3>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {skillGroups.map((group) => (
+              <div key={group.title}>
+                <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">{group.title}</h4>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-300">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
