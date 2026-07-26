@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, ReactNode, MouseEvent, CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, GraduationCap, Briefcase, Globe, ArrowRight, Sparkles, Download, X, Mail, Laptop, Rocket, Code, CheckCircle2 } from 'lucide-react';
-import roshanImage from '../assets/images/roshan-sah.png';
+import roshanImage from '../assets/images/rsn-bg.png';
 
 const fullName = 'ROSHAN SAH';
 
