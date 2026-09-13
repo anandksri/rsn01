@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "rsn01",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -31,5 +31,8 @@
     "typescript": "~5.8.2",
     "vite": "^6.2.3",
     "@types/express": "^4.17.21"
-  }
+  },
+  "description": "A React and TypeScript web application built with Vite.",
+  "author": "Anand Keshari",
+  "license": "MIT"
 }
